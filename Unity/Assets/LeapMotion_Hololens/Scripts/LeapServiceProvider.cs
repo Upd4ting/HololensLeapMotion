@@ -288,26 +288,6 @@ namespace Leap.Hololens
             destroyController();
         }
 
-        /*
-         * Initializes the Leap Motion policy flags.
-         * The POLICY_OPTIMIZE_HMD flag improves tracking for head-mounted devices.
-         */
-        protected void initializeFlags()
-        {
-            if (webController == null)
-            {
-                return;
-            }
-            //Optimize for top-down tracking if on head mounted display.
-            if (_isHeadMounted)
-            {
-                webController.SetPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-            }
-            else
-            {
-                webController.ClearPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-            }
-        }
         /** Create an instance of a Controller, initialize its policy flags
          * and subscribe to connection event */
         protected void createController()
@@ -318,14 +298,8 @@ namespace Leap.Hololens
             }
             webController = FindObjectOfType<LeapWebSocketController>();
 
-            if (webController.IsConnected)
-            {
-                initializeFlags();
-            }
-            else
-            {
+            if (!webController.IsConnected)
                 webController.Device += onHandControllerConnect;
-            }
         }
 
         /** Calling this method stop the connection for the existing instance of a Controller, 
@@ -334,10 +308,6 @@ namespace Leap.Hololens
         {
             if (webController != null)
             {
-                if (webController.IsConnected)
-                {
-                    webController.ClearPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-                }
                 webController.StopConnection();
                 webController = null;
             }
@@ -345,7 +315,6 @@ namespace Leap.Hololens
 
         protected void onHandControllerConnect(object sender, LeapEventArgs args)
         {
-            initializeFlags();
             webController.Device -= onHandControllerConnect;
         }
 

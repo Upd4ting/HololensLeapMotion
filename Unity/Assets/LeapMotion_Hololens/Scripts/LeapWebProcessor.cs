@@ -25,6 +25,8 @@ using MiniJSON;
 using Leap;
 #if !UNITY_EDITOR
 using Windows.Networking.Sockets;
+using Windows.Networking;
+using Windows.Networking.HostName;
 using Windows.Storage.Streams;
 #endif
 using System.Threading.Tasks;
@@ -34,29 +36,14 @@ using Leap.Hololens;
 
 public class LeapWebProcessor : MonoBehaviour
 {
-    //local host for websocket
-    const string WEBSOCKET_URI = "ws://localhost:6437/v6.json";
-
-    //replacing the local host with the IPV4 address for the computer processing the data sent by Leap Motion.
-    const string WEBSOCKET_URI_REMOTE = "ws://192.168.0.84:20307/v6.json";
-
-    //Leap Motion websokect APIs
-    const string GET_FOCUS = "{\"focused\" : \"true\"}";
-    const string LOST_FOCUS = "{\"focused\" : \"false\"}";
-    const string BACKGROUND_ON = "{\"background\" : \"true\"";
-    const string BACKGROUND_OFF = "{\"background\" : \"false\"";
-    const string GESTURES_ON = "{\"enableGestures\" : \"true\"";
-    const string GESTURES_OFF = "{\"enableGestures\" : \"false\"";
-    const string HMD_ON = "{\"optimizeHMD\" : \"true\"";
-    const string HMD_OFF = "{\"optimizeHMD\" : \"false\"";
-
     //Message received
     public String res;
 
     //Current frame data received from the websocket.
     public Dictionary<System.String, System.Object> currentFrame;
+    public bool running = false;
 #if !UNITY_EDITOR
-    public MessageWebSocket w;
+    public StreamSocket socket;
 #endif
     public float rotation;
 
@@ -65,8 +52,6 @@ public class LeapWebProcessor : MonoBehaviour
     public Frame frame;
 
     public long timestamp;
-
-    public string flag = BACKGROUND_ON;
 
     public bool IsConnected { get; internal set; }
 
@@ -90,7 +75,7 @@ public class LeapWebProcessor : MonoBehaviour
             child.gameObject.SetActive(true);
         }
 #if !UNITY_EDITOR
-        //webSocketSetup("192.168.0.84");
+        //socketSetup("192.168.0.84");
 #endif
     }
 
@@ -102,75 +87,57 @@ public class LeapWebProcessor : MonoBehaviour
         }
     }
 
-#if !UNITY_EDITOR
-    public async void webSocketSetup(string ipAddress)
-    {
-        //Setting up the websocket connection with the leap motion service
-        //Debug.Log("Setting up websocket");
-        w = new MessageWebSocket();
-
-        //In this case we will be sending/receiving a string so we need to set the MessageType to Utf8.
-        w.Control.MessageType = SocketMessageType.Utf8;
-
-        //Add the MessageReceived event handler.
-        w.MessageReceived += WebSock_MessageReceived;
-
-        //Add the Closed event handler.
-        w.Closed += WebSock_Closed;
-        Uri serverUri = new Uri("ws://" + ipAddress + ":20307/v6.json");
-
-        try
-        {
-            //Connect to the server.
-            await w.ConnectAsync(serverUri);
-
-            //Send a message to the server.
-            await WebSock_SendMessage(w, flag);
-            await WebSock_SendMessage(w, GET_FOCUS);
-        }
-        catch (Exception ex)
-        {
-            //Add code here to handle any exceptions
-            Debug.Log(ex.StackTrace);
-        }
-
-
-
-    }
-    //Send a message to the server.
-    private async Task WebSock_SendMessage(MessageWebSocket webSock, string message)
-    {
-        DataWriter messageWriter = new DataWriter(webSock.OutputStream);
-        messageWriter.WriteString(message);
-        await messageWriter.StoreAsync();
-    }
-
-    private void WebSock_Closed(IWebSocket sender, WebSocketClosedEventArgs args)
-    {
+    void OnDestroy() {
+        running = false;
         IsConnected = false;
+#if !UNITY_EDITOR
+        socket.Close();
+#endif
     }
 
-
-    //The MessageReceived event handler.
-    private void WebSock_MessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args)
+#if !UNITY_EDITOR
+    public async void socketSetup(string ipAddress)
     {
-        DataReader messageReader = args.GetDataReader();
-        res = messageReader.ReadString(messageReader.UnconsumedBufferLength);
-        Dictionary<string, object> frameData = (Dictionary<string, object>)Json.Deserialize(res);
-        if (frameData.ContainsKey("id"))
-        {
-            var newFrame = createFrame(frameData);
-            if (newFrame.Timestamp > maxTimeStamp)
-            {
-                frame = newFrame;
-                maxTimeStamp = newFrame.Timestamp;
-            }
-            if (IsConnected != true)
-            {
-                IsConnected = true;
-            }
+        socket = new StreamSocket();
+        await socket.ConnectAsync(new HostName(ipAddress), "4269");
+        running = true;
+        IsConnected = true;
 
-        }
+        // Send the frame rate we want
+        DataWriter writer = new DataWriter(socket.OutputStream);
+        writer.WriteInt32(20); // We request 20 fps here
+        await writer.FlushAsync();
+    }
+
+    private void StartReceivingTask() {
+        Task.Run(async () => {
+            DataReader reader = new DataReader(socket.InputStream);
+            reader.InputStreamOptions = InputStreamOptions.Partial;
+
+            while (running) {
+                try {
+                    await reader.LoadAsync(reader.UnconsumedBufferLength);
+                    string res = reader.ReadString();
+                    Dictionary<string, object> frameData = (Dictionary<string, object>)Json.Deserialize(res);
+                    if (frameData.ContainsKey("id"))
+                    {
+                        var newFrame = createFrame(frameData);
+                        if (newFrame.Timestamp > maxTimeStamp)
+                        {
+                            frame = newFrame;
+                            maxTimeStamp = newFrame.Timestamp;
+                        }
+                        if (IsConnected != true)
+                        {
+                            IsConnected = true;
+                        }
+
+                    }
+                } catch {
+                    // Swallow close exception
+                }
+            }
+        });
     }
 #endif
 
@@ -449,54 +416,6 @@ public class LeapWebProcessor : MonoBehaviour
         Quaternion basisQ = Quaternion.LookRotation(arm3_3, arm2_3);
         LeapQuaternion basis = new LeapQuaternion(basisQ.x, basisQ.y, basisQ.z, basisQ.w);
         return basis;
-
-    }
-
-    public void SetPolicy(Controller.PolicyFlag policy)
-    {
-        switch (policy)
-        {
-            case Controller.PolicyFlag.POLICY_DEFAULT:
-                flag = BACKGROUND_OFF;
-                Debug.Log("SetPolicy: POLICY_DEFAULT");
-                break;
-            case Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES:
-                flag = BACKGROUND_ON;
-                Debug.Log("SetPolicy: POLICY_BACKGROUND_FRAMES");
-                break;
-            case Controller.PolicyFlag.POLICY_OPTIMIZE_HMD:
-                flag = HMD_ON;
-                break;
-            case Controller.PolicyFlag.POLICY_ALLOW_PAUSE_RESUME:
-                Debug.Log("SetPolicy: POLICY_ALLOW_PAUSE_RESUME");
-                break;
-            default:
-                break;
-        }
-    }
-
-
-    public void ClearPolicy(Controller.PolicyFlag policy)
-    {
-        switch (policy)
-        {
-            case Controller.PolicyFlag.POLICY_DEFAULT:
-                flag = BACKGROUND_OFF;
-                Debug.Log("SetPolicy: POLICY_DEFAULT");
-                break;
-            case Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES:
-                flag = BACKGROUND_OFF;
-                Debug.Log("SetPolicy: POLICY_BACKGROUND_FRAMES");
-                break;
-            case Controller.PolicyFlag.POLICY_OPTIMIZE_HMD:
-                flag = HMD_OFF;
-                break;
-            case Controller.PolicyFlag.POLICY_ALLOW_PAUSE_RESUME:
-                Debug.Log("SetPolicy: POLICY_ALLOW_PAUSE_RESUME");
-                break;
-            default:
-                break;
-        }
 
     }
 

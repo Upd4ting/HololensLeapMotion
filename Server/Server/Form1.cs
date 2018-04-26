@@ -39,6 +39,9 @@ namespace Server {
 
             await SendString(_webSocket, BACKGROUND_ON, CancellationToken.None);
             await SendString(_webSocket, GET_FOCUS, CancellationToken.None);
+            await SendString(_webSocket, HMD_ON, CancellationToken.None); // Optimize HWND because that's for hololens
+
+            LogInformation("Connected to WebSocket of LeapMotion");
         }
 
         private void StartWSReceivingThread() {
@@ -55,6 +58,8 @@ namespace Server {
                         if (milliseconds - lastMilli >= 1000 / fps) {
                             _clientDelay[client] = lastMilli;
 
+                            LogInformation("Sending frame to client: " + (client.Client.RemoteEndPoint as IPEndPoint).Address.ToString());
+
                             BinaryWriter writer = new BinaryWriter(client.GetStream());
                             writer.Write(frame);
                         }
@@ -63,10 +68,13 @@ namespace Server {
                     // Swallow exception (close exception)
                 }
             });
+
+            LogInformation("WebSocket receiving thread started");
         }
 
         private async void StopWS() {
             await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Just stop", CancellationToken.None);
+            LogInformation("Stopping WebSocket");
         }
 
         private void StartSocket() {
@@ -85,6 +93,9 @@ namespace Server {
                                 try {
                                     BinaryReader reader = new BinaryReader(client.GetStream());
                                     int fps = reader.ReadInt32();
+
+                                    LogInformation("Client: " + (client.Client.RemoteEndPoint as IPEndPoint).Address.ToString()
+                                                   + " asked for a frame rate: " + fps);
 
                                     if (fps == -1) {
                                         _clients.Remove(client);
@@ -106,16 +117,20 @@ namespace Server {
                     }
                 }
             });
+
+            LogInformation("Socket started");
         }
 
         private void StopSocket() {
             _listener.Stop();
             _listener = null;
             _running = false;
+            LogInformation("Socket stopped");
         }
 
         private void LogInformation(string text) {
-            //TODO
+            informationText.Text += text;
+            informationText.Text += "\n";
         }
 
         private async void Form1_FormClosing(object sender, FormClosingEventArgs e) {
@@ -126,7 +141,18 @@ namespace Server {
 
         private void button_Click(object sender, EventArgs e)
         {
-            //TODO START STOP AND CHANGE TEXT
+            if (_running) {
+                _running = false;
+                StopSocket();
+                StopWS();
+                button.Text = "Start";
+            } else {
+                _running = true;
+                StartSocket();
+                StartWS();
+                StartWSReceivingThread();
+                button.Text = "Stop";
+            }
         }
 
         public static Task SendString(ClientWebSocket ws, string data, CancellationToken cancellation)

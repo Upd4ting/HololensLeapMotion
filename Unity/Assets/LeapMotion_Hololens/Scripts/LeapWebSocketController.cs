@@ -239,18 +239,6 @@ namespace LeapWrapper
             return processor.frame;
         }
 
-        public void SetPolicy(Controller.PolicyFlag policy)
-        {
-            processor.SetPolicy(policy);
-        }
-
-
-        public void ClearPolicy(Controller.PolicyFlag policy)
-        {
-            processor.SetPolicy(policy);
-
-        }
-
         public bool IsPolicySet(Controller.PolicyFlag policy)
         {
             Debug.Log("SetPolicy: IsPolicySet");

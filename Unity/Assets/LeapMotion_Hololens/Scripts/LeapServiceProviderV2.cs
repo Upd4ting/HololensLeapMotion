@@ -415,26 +415,6 @@ namespace Leap.Hololens
             Shader.SetGlobalMatrixArray(HAND_ARRAY, _transformArray);
         }
 
-        /*
-         * Initializes the Leap Motion policy flags.
-         * The POLICY_OPTIMIZE_HMD flag improves tracking for head-mounted devices.
-         */
-        protected void initializeFlags()
-        {
-            if (leap_controller_ == null)
-            {
-                return;
-            }
-            //Optimize for top-down tracking if on head mounted display.
-            if (_isHeadMounted)
-            {
-                leap_controller_.SetPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-            }
-            else
-            {
-                leap_controller_.ClearPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-            }
-        }
         /** Create an instance of a Controller, initialize its policy flags
          * and subscribe to connection event */
         protected void createController()
@@ -446,14 +426,8 @@ namespace Leap.Hololens
 
             //leap_controller_ = new Controller();
             leap_controller_ = FindObjectOfType<LeapWebSocketController>();
-            if (leap_controller_.IsConnected)
-            {
-                initializeFlags();
-            }
-            else
-            {
+            if (!leap_controller_.IsConnected)
                 leap_controller_.Device += onHandControllerConnect;
-            }
         }
 
         /** Calling this method stop the connection for the existing instance of a Controller, 
@@ -462,10 +436,6 @@ namespace Leap.Hololens
         {
             if (leap_controller_ != null)
             {
-                if (leap_controller_.IsConnected)
-                {
-                    leap_controller_.ClearPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
-                }
                 leap_controller_.StopConnection();
                 leap_controller_ = null;
             }
@@ -473,7 +443,6 @@ namespace Leap.Hololens
 
         protected void onHandControllerConnect(object sender, LeapEventArgs args)
         {
-            initializeFlags();
             leap_controller_.Device -= onHandControllerConnect;
         }
 

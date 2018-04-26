@@ -76,6 +76,7 @@
             // 
             this.informationText.Location = new System.Drawing.Point(35, 90);
             this.informationText.Name = "informationText";
+            this.informationText.ReadOnly = true;
             this.informationText.Size = new System.Drawing.Size(423, 141);
             this.informationText.TabIndex = 3;
             this.informationText.Text = "";
