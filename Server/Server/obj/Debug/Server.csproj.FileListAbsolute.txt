@@ -1,0 +1,10 @@
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\bin\Debug\Server.exe.config
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\bin\Debug\Server.exe
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\bin\Debug\Server.pdb
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.Form1.resources
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.Properties.Resources.resources
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.csproj.GenerateResource.Cache
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.exe
+D:\Documents\workspace-unity\HololensLeapMotion\Server\Server\obj\Debug\Server.pdb

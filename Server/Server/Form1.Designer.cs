@@ -98,7 +98,7 @@
             this.ipText.Name = "ipText";
             this.ipText.Size = new System.Drawing.Size(142, 26);
             this.ipText.TabIndex = 5;
-            this.ipText.Text = "4269";
+            this.ipText.Text = "127.0.0.1";
             // 
             // Form1
             // 

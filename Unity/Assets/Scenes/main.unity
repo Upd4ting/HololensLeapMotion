@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   res: 
+  running: 0
   rotation: 0
   width: 0
   frame:
@@ -215,7 +216,6 @@ MonoBehaviour:
         y: 0
         z: 0
   timestamp: 0
-  flag: '{"background" : "true"'
   LeapHandController: {fileID: 1025246846}
   hasHand: 0
 --- !u!4 &296333498

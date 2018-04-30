@@ -26,7 +26,6 @@ using Leap;
 #if !UNITY_EDITOR
 using Windows.Networking.Sockets;
 using Windows.Networking;
-using Windows.Networking.HostName;
 using Windows.Storage.Streams;
 #endif
 using System.Threading.Tasks;
@@ -75,7 +74,7 @@ public class LeapWebProcessor : MonoBehaviour
             child.gameObject.SetActive(true);
         }
 #if !UNITY_EDITOR
-        //socketSetup("192.168.0.84");
+        socketSetup("192.168.0.107");
 #endif
     }
 
@@ -85,14 +84,6 @@ public class LeapWebProcessor : MonoBehaviour
         {
             LeapHandController.SetActive(true);
         }
-    }
-
-    void OnDestroy() {
-        running = false;
-        IsConnected = false;
-#if !UNITY_EDITOR
-        socket.Close();
-#endif
     }
 
 #if !UNITY_EDITOR
@@ -105,7 +96,9 @@ public class LeapWebProcessor : MonoBehaviour
 
         // Send the frame rate we want
         DataWriter writer = new DataWriter(socket.OutputStream);
+        writer.ByteOrder = ByteOrder.LittleEndian;
         writer.WriteInt32(20); // We request 20 fps here
+        await writer.StoreAsync();
         await writer.FlushAsync();
     }
 
@@ -117,7 +110,8 @@ public class LeapWebProcessor : MonoBehaviour
             while (running) {
                 try {
                     await reader.LoadAsync(reader.UnconsumedBufferLength);
-                    string res = reader.ReadString();
+                    int size = reader.ReadInt32();
+                    string res = reader.ReadString((uint)size);
                     Dictionary<string, object> frameData = (Dictionary<string, object>)Json.Deserialize(res);
                     if (frameData.ContainsKey("id"))
                     {
@@ -422,9 +416,10 @@ public class LeapWebProcessor : MonoBehaviour
     public void StopConnection()
     {
 #if !UNITY_EDITOR
-        if (w != null)
-        {
-            w.Close(1000, "Done");
+        if (IsConnected) {
+            running = false;
+            IsConnected = false;
+            socket.Dispose();
         }
 #endif
     }
@@ -433,7 +428,6 @@ public class LeapWebProcessor : MonoBehaviour
     {
         if (!IsConnected)
         {
-
             Start();
         }
     }

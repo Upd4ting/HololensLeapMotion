@@ -590,11 +590,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Template3D
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00529eaa61ffd401
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: 
@@ -613,29 +613,29 @@ PlayerSettings:
     WindowsStoreApps:
       AllJoyn: False
       BlockedChatMessages: False
-      Bluetooth: False
+      Bluetooth: True
       Chat: False
       CodeGeneration: False
-      EnterpriseAuthentication: False
+      EnterpriseAuthentication: True
       HumanInterfaceDevice: False
       InputInjectionBrokered: False
-      InternetClient: False
-      InternetClientServer: False
+      InternetClient: True
+      InternetClientServer: True
       Location: False
-      Microphone: False
-      MusicLibrary: False
+      Microphone: True
+      MusicLibrary: True
       Objects3D: False
       PhoneCall: False
-      PicturesLibrary: False
-      PrivateNetworkClientServer: False
-      Proximity: False
+      PicturesLibrary: True
+      PrivateNetworkClientServer: True
+      Proximity: True
       RemovableStorage: False
       SharedUserCertificates: False
-      SpatialPerception: False
+      SpatialPerception: True
       UserAccountInformation: False
-      VideosLibrary: False
+      VideosLibrary: True
       VoipCall: False
-      WebCam: False
+      WebCam: True
   metroFTAName: 
   metroFTAFileTypes: []
   metroProtocolName: 

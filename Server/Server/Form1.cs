@@ -33,9 +33,9 @@ namespace Server {
             _running = false;
         }
 
-        private async void StartWS() {
+        private async Task StartWS() {
             _webSocket = new ClientWebSocket();
-            await _webSocket.ConnectAsync(new Uri("ws://" + ipText.Text + ":20307/v6.json"), CancellationToken.None);
+            await _webSocket.ConnectAsync(new Uri("ws://" + ipText.Text + ":6437/v6.json"), CancellationToken.None);
 
             await SendString(_webSocket, BACKGROUND_ON, CancellationToken.None);
             await SendString(_webSocket, GET_FOCUS, CancellationToken.None);
@@ -46,34 +46,41 @@ namespace Server {
 
         private void StartWSReceivingThread() {
             Task.Run(async () => {
-                try {
-                    string frame = await ReadString(_webSocket);
+                while (_running) {
+                    try
+                    {
+                        string frame = await ReadString(_webSocket);
 
-                    long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-                    foreach (TcpClient client in _clients.Keys) {
-                        long lastMilli = _clientDelay[client];
-                        int fps = _clients[client];
+                        foreach (TcpClient client in _clients.Keys)
+                        {
+                            long lastMilli = _clientDelay[client];
+                            int  fps       = _clients[client];
 
-                        if (milliseconds - lastMilli >= 1000 / fps) {
-                            _clientDelay[client] = lastMilli;
+                            if (milliseconds - lastMilli >= 1000 / fps)
+                            {
+                                _clientDelay[client] = lastMilli;
 
-                            LogInformation("Sending frame to client: " + (client.Client.RemoteEndPoint as IPEndPoint).Address.ToString());
-
-                            BinaryWriter writer = new BinaryWriter(client.GetStream());
-                            writer.Write(frame);
+                                BinaryWriter writer = new BinaryWriter(client.GetStream());
+                                writer.Write(frame.Length);
+                                writer.Write(frame);
+                            }
                         }
                     }
-                } catch {
-                    // Swallow exception (close exception)
+                    catch (Exception e)
+                    {
+                        LogInformation("Error: " + e.Message);
+                        // Swallow exception (close exception)
+                    }
                 }
             });
 
             LogInformation("WebSocket receiving thread started");
         }
 
-        private async void StopWS() {
-            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Just stop", CancellationToken.None);
+        private async Task StopWS() {
+            await _webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
             LogInformation("Stopping WebSocket");
         }
 
@@ -87,6 +94,8 @@ namespace Server {
                 while (_running) {
                     try {
                         TcpClient client = _listener.AcceptTcpClient();
+
+                        LogInformation("Client connected");
 
                         Task.Run(() => {
                             while (_running) {
@@ -129,27 +138,31 @@ namespace Server {
         }
 
         private void LogInformation(string text) {
-            informationText.Text += text;
-            informationText.Text += "\n";
+            BeginInvoke(new MethodInvoker(delegate
+            {
+                informationText.Text += text;
+                informationText.Text += "\n";
+            }));
         }
 
         private async void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            if (_running)
-                _listener.Stop();
-            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Just close", CancellationToken.None);
+            if (_running) {
+                StopSocket();
+                await StopWS();
+            }
         }
 
-        private void button_Click(object sender, EventArgs e)
+        private async void button_Click(object sender, EventArgs e)
         {
             if (_running) {
                 _running = false;
                 StopSocket();
-                StopWS();
+                await StopWS();
                 button.Text = "Start";
             } else {
                 _running = true;
                 StartSocket();
-                StartWS();
+                await StartWS();
                 StartWSReceivingThread();
                 button.Text = "Stop";
             }
