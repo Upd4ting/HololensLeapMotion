@@ -5,13 +5,14 @@
 # Write a line equal to 'overwrite-all' (without quotes) to overwrite everything (preserved accross builds)
 # Write a line equal to 'keep-all' (without quotes) to keep files regardless their modification (preserved accross builds)
 # Default behavior is to never overwrite files
-Unity.sln: 6F4836D1F3672DA3F3383FEEFABBE9F1
+Unity.sln: 1915DE9133F225C15FECEEE5DC6613F7
+GeneratedProjects\UWP\Assembly-CSharp\project.json: 1D02BC64BAC0D041019673A1C4C51737
 Unity\App.cs: D01E6F4CA8242894B633B20C2D322D3C
 Unity\AssemblyConverterArgs.txt: 7289DBF70167749DBDD59D649DC7C9F2
 Unity\Package.appxmanifest: 4A329BD45118F0B6A1683B623D08BC04
 Unity\project.json: 1D02BC64BAC0D041019673A1C4C51737
-Unity\Unity.csproj: 9167128F8CAC1B95EDB55377C7E4C2C7
-Unity\Unity.csproj.user: modified
+Unity\Unity.csproj: 1FBB098F0303D6D494B85BA75DE41FCB
+Unity\Unity.csproj.user: BEFB8AC4886C4CFDD3C68445D6F19B04
 Unity\Assets\SplashScreen.scale-200.png: A85C1D7624B6902CF8CEBD6F0200A826
 Unity\Assets\Square150x150Logo.scale-200.png: E02834B4A5DFB97FF8E212C1CACBB084
 Unity\Assets\Square44x44Logo.scale-200.png: 6C6EF27184ABE9D870A9D564953775DE
@@ -19,13 +20,4 @@ Unity\Assets\Square44x44Logo.targetsize-24.png: 156637F7B5363E983E7A46D8E533A23D
 Unity\Assets\Square44x44Logo.targetsize-24_altform-unplated.png: 156637F7B5363E983E7A46D8E533A23D
 Unity\Assets\StoreLogo.png: 90BD194CA4A7CFFF3E8B8222229857FB
 Unity\Assets\Wide310x150Logo.scale-200.png: C96846A80DF667F87355569CD816192D
-Unity\bin\x86\Debug\AppX\Assets\SplashScreen.scale-200.png: A85C1D7624B6902CF8CEBD6F0200A826
-Unity\bin\x86\Debug\AppX\Assets\Square150x150Logo.scale-200.png: E02834B4A5DFB97FF8E212C1CACBB084
-Unity\bin\x86\Debug\AppX\Assets\Square44x44Logo.scale-200.png: 6C6EF27184ABE9D870A9D564953775DE
-Unity\bin\x86\Debug\AppX\Assets\Square44x44Logo.targetsize-24.png: 156637F7B5363E983E7A46D8E533A23D
-Unity\bin\x86\Debug\AppX\Assets\Square44x44Logo.targetsize-24_altform-unplated.png: 156637F7B5363E983E7A46D8E533A23D
-Unity\bin\x86\Debug\AppX\Assets\StoreLogo.png: 90BD194CA4A7CFFF3E8B8222229857FB
-Unity\bin\x86\Debug\AppX\Assets\Wide310x150Logo.scale-200.png: C96846A80DF667F87355569CD816192D
-Unity\bin\x86\Debug\AppX\Properties\Default.rd.xml: 72EB282657164E79A1C42F6240984826
-Unity\obj\x86\Debug\Unity.csproj.CopyComplete: D41D8CD98F00B204E9800998ECF8427E
 Unity\Properties\Default.rd.xml: 72EB282657164E79A1C42F6240984826

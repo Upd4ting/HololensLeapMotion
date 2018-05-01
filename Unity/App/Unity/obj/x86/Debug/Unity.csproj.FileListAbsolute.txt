@@ -111,7 +111,6 @@ D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\Sy
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\System.Xml.XDocument.dll
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\System.Xml.XmlDocument.dll
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\System.Xml.XmlSerializer.dll
-D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\Assembly-CSharp.dll
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\BridgeInterface.winmd
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\GLTFSerializationUWP.dll
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\InteractionEngineUtility.dll
@@ -175,7 +174,6 @@ D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\Un
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\UnityPlayer.winmd
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\WinRTBridge.winmd
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\WinRTLegacy.dll
-D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\Assembly-CSharp.pdb
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\UnityEngine.SpriteMaskModule.pdb
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\UnityEngine.SpriteShapeModule.pdb
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\UnityEngine.StyleSheetsModule.pdb

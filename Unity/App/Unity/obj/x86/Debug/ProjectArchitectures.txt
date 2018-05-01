@@ -1,1 +1,2 @@
+D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\GeneratedProjects\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
 D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\Unity.csproj;x86

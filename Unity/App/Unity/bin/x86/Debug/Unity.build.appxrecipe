@@ -471,9 +471,6 @@
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\Assembly-CSharp.dll">
-      <PackagePath>Assembly-CSharp.dll</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\UnityEngine.SpriteMaskModule.dll">
       <PackagePath>UnityEngine.SpriteMaskModule.dll</PackagePath>
     </AppxPackagedFile>
@@ -644,6 +641,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\GLTFSerializationUWP.dll">
       <PackagePath>GLTFSerializationUWP.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\Assembly-CSharp.dll">
+      <PackagePath>Assembly-CSharp.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\bin\x86\Debug\Core\Unity.exe">
       <PackagePath>Unity.exe</PackagePath>
