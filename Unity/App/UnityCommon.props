@@ -3,7 +3,7 @@
         <UnityWSASolutionName>Unity</UnityWSASolutionName>
         <UnityWSASolutionDir>D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\</UnityWSASolutionDir>
         <UnityProjectDir>D:\Documents\workspace-unity\HololensLeapMotion\Unity\</UnityProjectDir>
-        <UnityWSAPlayerDir>D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\</UnityWSAPlayerDir>
+        <UnityWSAPlayerDir>C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\</UnityWSAPlayerDir>
         <UnityWSAToolsDir>$(UnityWSASolutionDir)Unity\Tools\</UnityWSAToolsDir>
     </PropertyGroup>
 </Project>

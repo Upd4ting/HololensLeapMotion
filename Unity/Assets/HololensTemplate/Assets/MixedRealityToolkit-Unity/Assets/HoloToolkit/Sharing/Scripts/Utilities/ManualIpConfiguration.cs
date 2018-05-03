@@ -211,7 +211,7 @@ namespace HoloToolkit.Sharing.Utilities
             GameObject.Find("Sharing").GetComponent<SharingWorldAnchorManager>().StartManager();
 #if !UNITY_EDITOR
             if(IsTracking)
-                GameObject.Find("HandsManager").GetComponent<LeapWebProcessor>().InitSocket(ipAddress.text);
+                GameObject.Find("HandsManager").GetComponent<LeapProcessor>().InitSocket(ipAddress.text);
 #endif
             CheckConnection();
         }

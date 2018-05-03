@@ -327,6 +327,9 @@ namespace MiniJSON
                     return parsedInt;
                 }
 
+                // Fix by https://github.com/Upd4ting
+                number = number.Replace('.', ',');
+
                 double parsedDouble;
                 Double.TryParse(number, out parsedDouble);
                 return parsedDouble;

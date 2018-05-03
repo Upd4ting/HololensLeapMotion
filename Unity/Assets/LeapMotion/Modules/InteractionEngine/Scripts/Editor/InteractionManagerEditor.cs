@@ -7,6 +7,7 @@
  * between Leap Motion and you, your company or other organization.           *
  ******************************************************************************/
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -177,12 +178,16 @@ namespace Leap.Unity.Interaction {
       _rightHand = null;
       _leftVRNodeController = null;
       _rightVRNodeController = null;
-      foreach (var controller in target.interactionControllers) {
-        EditorGUILayout.BeginHorizontal();
 
-        drawControllerStatusEditor(controller);
+      target.refreshInteractionControllers();
 
-        EditorGUILayout.EndHorizontal();
+      foreach (var controller in target.interactionControllers)
+      {
+          EditorGUILayout.BeginHorizontal();
+
+          drawControllerStatusEditor(controller);
+
+          EditorGUILayout.EndHorizontal();
       }
 
       EditorGUILayout.EndVertical();

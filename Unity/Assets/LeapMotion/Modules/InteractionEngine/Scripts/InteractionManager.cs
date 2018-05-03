@@ -846,10 +846,10 @@ namespace Leap.Unity.Interaction {
 
 #region Interaction Controllers
 
-    private void refreshInteractionControllers() {
-      _interactionControllers.Clear();
+    public void refreshInteractionControllers() {
+    _interactionControllers = new InteractionControllerSet();
 
-      var tempControllers = Pool<List<InteractionController>>.Spawn();
+    var tempControllers = Pool<List<InteractionController>>.Spawn();
       try {
         this.transform.GetComponentsInChildren<InteractionController>(false, tempControllers);
         foreach (var controller in tempControllers) {

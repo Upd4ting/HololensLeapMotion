@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
-using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,13 +79,6 @@ namespace Server {
                     try {
                         string frame = await ReadString(_webSocket);
 
-                        FrameData? data = ConstructFrameData(frame);
-
-                        if (!data.HasValue)
-                            continue;
-
-                        byte[] dataArray = DataToBytes(data.Value);
-
                         foreach (TcpClient client in _clients.Keys) {
                             Stopwatch watch = _clientWatch[client];
                             int       fps   = _clients[client];
@@ -94,8 +87,7 @@ namespace Server {
 
                             if (watch.ElapsedMilliseconds >= 1000 / fps) {
                                 BinaryWriter writer = new BinaryWriter(client.GetStream());
-                                writer.Write(dataArray.Length);
-                                writer.Write(dataArray);
+                                writer.Write(frame);
                                 watch.Reset();
                                 watch.Start();
                             } else {
@@ -103,6 +95,7 @@ namespace Server {
                             }
                         }
                     } catch (Exception e) {
+                        Console.WriteLine(e.Message);
                         // Swallow exception (close exception)
                     }
             });
@@ -145,11 +138,13 @@ namespace Server {
                                         _clients[client]     = fps;
                                         _clientWatch[client] = Stopwatch.StartNew();
                                     }
-                                } catch {
+                                } catch (Exception e) {
+                                    Console.WriteLine(e.Message);
                                     // Swallow close exception
                                 }
                         });
-                    } catch {
+                    } catch (Exception e) {
+                        Console.WriteLine(e.Message);
                         // Swallow close exception
                     }
             });
@@ -191,177 +186,6 @@ namespace Server {
                 StartWSReceivingThread();
                 button.Text = "Stop";
             }
-        }
-
-        private FrameData? ConstructFrameData(string res) {
-            FrameData frame = new FrameData();
-
-            Dictionary<string, object> frameData = (Dictionary<string, object>) Json.Deserialize(res);
-
-            if (!frameData.ContainsKey("id"))
-                return null;
-
-            frame.id               = (long) frameData["id"];
-            frame.timestamp        = (long) frameData["timestamp"];
-            frame.currentFrameRate = (double) frameData["currentFrameRate"];
-
-            Dictionary<string, object> box = (Dictionary<string, object>) frameData["interactionBox"];
-            frame.interactionBoxCenter = (List<object>) box["center"];
-            frame.interactionBoxSize   = (List<object>) box["size"];
-
-            List<object>     handsobject = (List<object>) frameData["hands"];
-            List<object>     pointables  = (List<object>) frameData["pointables"];
-            List<HandData>   hands       = new List<HandData>();
-            List<FingerData> fingers     = new List<FingerData>();
-
-            foreach (object o in handsobject) hands.Add(ConstructHandData(o));
-
-            foreach (object o in pointables) fingers.Add(ConstructFingerData(o));
-
-            frame.hands   = hands;
-            frame.fingers = fingers;
-
-            return frame;
-        }
-
-        private HandData ConstructHandData(object h) {
-            HandData                   hand = new HandData();
-            Dictionary<string, object> ho   = (Dictionary<string, object>) h;
-
-            hand.armBasis               = (List<object>) ho["armBasis"];
-            hand.armWidth               = (double) ho["armWidth"];
-            hand.confidence             = (double) ho["confidence"];
-            hand.direction              = (List<object>) ho["direction"];
-            hand.elbox                  = (List<object>) ho["elbox"];
-            hand.grapAngle              = (double) ho["grapAngle"];
-            hand.grapStrength           = (double) ho["grapStrength"];
-            hand.id                     = (long) ho["id"];
-            hand.palmNormal             = (List<object>) ho["palmNormal"];
-            hand.palmPosition           = (List<object>) ho["palmPosition"];
-            hand.palmVelocity           = (List<object>) ho["palmVelocity"];
-            hand.palmWidth              = (double) ho["palmWidth"];
-            hand.confidence             = (double) ho["confidence"];
-            hand.pinchStrength          = (double) ho["pinchStrength"];
-            hand.s                      = (double) ho["s"];
-            hand.sphereCenter           = (List<object>) ho["sphereCenter"];
-            hand.sphereRadius           = (double) ho["sphereRadius"];
-            hand.stabilizedPalmPosition = (List<object>) ho["stabilizedPalmPosition"];
-            hand.timeVisible            = (double) ho["timeVisible"];
-            hand.type                   = (string) ho["type"];
-            hand.wrist                  = (List<object>) ho["wrist"];
-
-            return hand;
-        }
-
-        private FingerData ConstructFingerData(object f) {
-            FingerData                 finger = new FingerData();
-            Dictionary<string, object> fo     = (Dictionary<string, object>) f;
-
-            finger.boneBasics            = (List<object>) fo["boneBasics"];
-            finger.btipPosition          = (List<object>) fo["btipPosition"];
-            finger.carpPosition          = (List<object>) fo["carpPosition"];
-            finger.dipPosition           = (List<object>) fo["dipPosition"];
-            finger.direction             = (List<object>) fo["direction"];
-            finger.extended              = (bool) fo["extended"];
-            finger.handId                = (long) fo["handId"];
-            finger.id                    = (long) fo["id"];
-            finger.length                = (double) fo["length"];
-            finger.mcpPosition           = (List<object>) fo["mcpPosition"];
-            finger.pipPosition           = (List<object>) fo["pipPosition"];
-            finger.stabilizedTipPosition = (List<object>) fo["stabilizedTipPosition"];
-            finger.timeVisible           = (double) fo["timeVisible"];
-            finger.tipPosition           = (List<object>) fo["tipPosition"];
-            finger.tipVelocity           = (List<object>) fo["tipVelocity"];
-            finger.tool                  = (bool) fo["tool"];
-            finger.touchDistance         = (double) fo["touchDistance"];
-            finger.type                  = (long) fo["type"];
-            finger.width                 = (double) fo["width"];
-
-            return finger;
-        }
-
-        private byte[] DataToBytes(FrameData str) {
-            int    size = Marshal.SizeOf(str);
-            byte[] arr  = new byte[size];
-
-            IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
-            Marshal.Copy(ptr, arr, 0, size);
-            Marshal.FreeHGlobal(ptr);
-            return arr;
-        }
-
-        private FrameData BytesToData(byte[] arr) {
-            FrameData str = new FrameData();
-
-            int    size = Marshal.SizeOf(str);
-            IntPtr ptr  = Marshal.AllocHGlobal(size);
-
-            Marshal.Copy(arr, 0, ptr, size);
-
-            str = Marshal.PtrToStructure<FrameData>(ptr);
-            Marshal.FreeHGlobal(ptr);
-
-            return str;
-        }
-
-        // Struct for binary protocol with the hololens
-        public struct HandData {
-            public List<object> armBasis;
-            public double       armWidth;
-            public double       confidence;
-            public List<object> direction;
-            public List<object> elbox;
-            public double       grapAngle;
-            public double       grapStrength;
-            public long         id;
-            public List<object> palmNormal;
-            public List<object> palmPosition;
-            public List<object> palmVelocity;
-            public double       palmWidth;
-            public double       pinchStrength;
-            public double       s;
-            public List<object> sphereCenter;
-            public double       sphereRadius;
-            public List<object> stabilizedPalmPosition;
-            public double       timeVisible;
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 10)]
-            public string type;
-
-            public List<object> wrist;
-        }
-
-        public struct FingerData {
-            public List<object> btipPosition;
-            public List<object> carpPosition;
-            public List<object> dipPosition;
-            public List<object> direction;
-            public bool         extended;
-            public long         handId;
-            public long         id;
-            public double       length;
-            public List<object> mcpPosition;
-            public List<object> pipPosition;
-            public List<object> stabilizedTipPosition;
-            public double       timeVisible;
-            public List<object> tipPosition;
-            public List<object> tipVelocity;
-            public bool         tool;
-            public double       touchDistance;
-            public long         type;
-            public double       width;
-            public List<object> boneBasics;
-        }
-
-        public struct FrameData {
-            public long             id;
-            public long             timestamp;
-            public double           currentFrameRate;
-            public List<object>     interactionBoxCenter;
-            public List<object>     interactionBoxSize;
-            public List<HandData>   hands;
-            public List<FingerData> fingers;
         }
     }
 }

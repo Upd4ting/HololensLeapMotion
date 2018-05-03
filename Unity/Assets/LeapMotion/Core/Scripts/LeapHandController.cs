@@ -45,7 +45,7 @@ namespace Leap.Unity {
     }
 
     protected virtual void OnEnable() {
-      provider = requireComponent<LeapServiceProviderV2>();
+      provider = requireComponent<Leap.Hololens.LeapServiceProvider>();
       pool = requireComponent<HandPool>();
 
       provider.OnUpdateFrame += OnUpdateFrame;

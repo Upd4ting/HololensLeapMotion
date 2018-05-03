@@ -156,8 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionControllers:
-    _values:
-    - {fileID: 2010541657}
+    _values: []
   hoverActivationRadius: 0.2
   touchActivationRadius: 0.075
   _autoGenerateLayers: 1
@@ -197,10 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10642b36970239c488400cbccf08eafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  res: 
   running: 0
-  rotation: 0
-  width: 0
   frame:
     Id: 0
     Timestamp: 0
@@ -218,6 +214,7 @@ MonoBehaviour:
   timestamp: 0
   LeapHandController: {fileID: 1025246846}
   hasHand: 0
+  maxTimeStamp: -1
 --- !u!4 &296333498
 Transform:
   m_ObjectHideFlags: 0
@@ -310,7 +307,7 @@ GameObject:
   - component: {fileID: 715048507}
   - component: {fileID: 715048506}
   - component: {fileID: 715048505}
-  - component: {fileID: 715048504}
+  - component: {fileID: 715048503}
   m_Layer: 0
   m_Name: HololensCamera
   m_TagString: MainCamera
@@ -318,7 +315,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &715048504
+--- !u!114 &715048503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -456,6 +453,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11407378, guid: 869d20cdda15af24aab9e72b5f2eec78, type: 2}
+      propertyPath: _sphereMesh
+      value: 
+      objectReference: {fileID: 4300002, guid: 2f496b1b1bec86743b418551f859020c, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 869d20cdda15af24aab9e72b5f2eec78, type: 2}
   m_IsPrefabParent: 0
@@ -479,8 +480,8 @@ GameObject:
   - component: {fileID: 1025246847}
   - component: {fileID: 1025246850}
   - component: {fileID: 1025246848}
-  - component: {fileID: 1025246851}
   - component: {fileID: 1025246849}
+  - component: {fileID: 1025246851}
   m_Layer: 0
   m_Name: LeapHandController
   m_TagString: Untagged
@@ -610,6 +611,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114961213528822752, guid: edcc5ee563218a84ab541a00a47ea5c8,
+        type: 2}
+      propertyPath: _handDataMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961213528822752, guid: edcc5ee563218a84ab541a00a47ea5c8,
+        type: 2}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 257523206}
+    - target: {fileID: 114961213528822752, guid: edcc5ee563218a84ab541a00a47ea5c8,
+        type: 2}
+      propertyPath: _hoverEnabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edcc5ee563218a84ab541a00a47ea5c8, type: 2}
   m_IsPrefabParent: 0
@@ -703,6 +719,14 @@ Prefab:
       propertyPath: _material
       value: 
       objectReference: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11407378, guid: 39d18871c11b53c4082d8202e3db68a3, type: 2}
+      propertyPath: _sphereMesh
+      value: 
+      objectReference: {fileID: 4300002, guid: 2f496b1b1bec86743b418551f859020c, type: 3}
+    - target: {fileID: 11407378, guid: 39d18871c11b53c4082d8202e3db68a3, type: 2}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39d18871c11b53c4082d8202e3db68a3, type: 2}
   m_IsPrefabParent: 0
@@ -837,6 +861,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114984092864784160, guid: 8b0fa35b4cedcf243b23166070e235ec,
+        type: 2}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 257523206}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b0fa35b4cedcf243b23166070e235ec, type: 2}
   m_IsPrefabParent: 0
@@ -845,9 +874,3 @@ Transform:
   m_PrefabParentObject: {fileID: 4594054966085544, guid: 8b0fa35b4cedcf243b23166070e235ec,
     type: 2}
   m_PrefabInternal: {fileID: 2010541655}
---- !u!114 &2010541657 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114984092864784160, guid: 8b0fa35b4cedcf243b23166070e235ec,
-    type: 2}
-  m_PrefabInternal: {fileID: 2010541655}
-  m_Script: {fileID: 11500000, guid: 29207d17cdd06e84d9fecbdef2401c1c, type: 3}

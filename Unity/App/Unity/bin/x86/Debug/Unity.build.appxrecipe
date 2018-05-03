@@ -346,31 +346,31 @@
     <AppxPackagedFile Include="C:\Users\pcasus\.nuget\packages\system.xml.xmlserializer\4.0.10\lib\netcore50\System.Xml.XmlSerializer.dll">
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineProxy.dll">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineProxy.dll">
       <PackagePath>UnityEngineProxy.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\Unprocessed\WinRTLegacy.dll">
       <PackagePath>WinRTLegacy.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityPlayer.dll">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityPlayer.dll">
       <PackagePath>UnityPlayer.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\BridgeInterface.dll">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\BridgeInterface.dll">
       <PackagePath>BridgeInterface.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineDelegates.dll">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineDelegates.dll">
       <PackagePath>UnityEngineDelegates.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\BridgeInterface.winmd">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\BridgeInterface.winmd">
       <PackagePath>BridgeInterface.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineDelegates.winmd">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityEngineDelegates.winmd">
       <PackagePath>UnityEngineDelegates.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityPlayer.winmd">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\UnityPlayer.winmd">
       <PackagePath>UnityPlayer.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\WinRTBridge.winmd">
+    <AppxPackagedFile Include="C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\Players\UAP\dotnet\x86\Debug\WinRTBridge.winmd">
       <PackagePath>WinRTBridge.winmd</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\workspace-unity\HololensLeapMotion\Unity\App\Unity\Resource.res">

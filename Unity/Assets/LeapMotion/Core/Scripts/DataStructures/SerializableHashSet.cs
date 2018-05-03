@@ -66,7 +66,7 @@ namespace Leap.Unity {
     }
 
     public void OnAfterDeserialize() {
-      Clear();
+      //Clear();
 
       if (_values != null) {
         foreach (var value in _values) {
