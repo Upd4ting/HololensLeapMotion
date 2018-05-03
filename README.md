@@ -12,9 +12,9 @@ You can contribute by forking and doing pull request
 
 # Concept 
 
-Implementing LeapMotion data on Unity. That's not using the websocket of the LeapMotion directly. We have a server that collect 
-the data from websocket then the app Unity will contact our server. Like that we will able to control the frame rate of the data.
+The LeapMotion directly isn't compatible with UWP. The only solution then is to stream the data of the leapmotion to the Hololens.
+The LeapMotion provides a websocket that we can use to retrieve these data. The library of Zhengyilua above is doing this concept but I made a lot of improvement here. 
 
-# Documentation
+You have now a middleware server between the WebSocket and the Hololens. The Hololens connect to the middleware and can tell him how much frame rate he wants. So with that you are able to control the frame rate in an easier and cleaner way. 
 
-Coming soon...
+I also fixed some error that was causing bugs and performance issues so all run now smoother.
