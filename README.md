@@ -1,5 +1,5 @@
 # HololensLeapMotion
-Hololens library to track object by unique color. 
+The most effective way to implement the LeapMotion on the Hololens.
 
 This is using these library:
 
