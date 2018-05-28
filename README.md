@@ -18,3 +18,9 @@ The LeapMotion provides a websocket that we can use to retrieve these data. The 
 You have now a middleware server between the WebSocket and the Hololens. The Hololens connect to the middleware and can tell him how much frame rate he wants. So with that you are able to control the frame rate in an easier and cleaner way. 
 
 I also fixed some error that was causing bugs and performance issues so all run now smoother.
+
+# Team
+
+The developement team of this project is composed of Antony Rizzitelly and Pierre Delaisse (https://www.linkedin.com/in/pierredelaisse). 
+Pierre updated the code from https://github.com/ZhengyiLuo/LeapMotion_Hololens_Asset/ to the current version of Hololens and Leap Motion. 
+Antony created the websocket to vary the framerate sent through the network. 
